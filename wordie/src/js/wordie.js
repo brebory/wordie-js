@@ -1,123 +1,123 @@
 
-    /*********************** PASSWORDIFIER CLASS DEFINITIONS **********************/
+/*********************** PASSWORDIFIER CLASS DEFINITIONS **********************/
 
-    function PassWordifier() {
-        /* Array of different types of conversion methods to be accessed by
-           passWordify method */
-           
-        var conversions = [convert1, convert2, convert3, convert4];
+function PassWordifier() {
+  
+  /* Array of different types of conversion methods to be accessed by
+     passWordify method */       
+  var conversions = [convert1, convert2, convert3, convert4];
 
-		/* PRIVATE METHODS */
-	
-		/* Returns lowercase version of char */
-		function convert1(char) {
-			return char.toLowerCase();
-		}
-	
-		/* Returns char converted into its index in the alphabet, with second number,
-		   (if there is one) converted to its corresponding symbol on the keyboard. */
-		function convert2(char) {
-            var index = char.toAlphabetIndex();
-            /* If index is 2 numbers, convert second to symbol, leave first. If only 1,
-               just return first number */     
-            if(index.length === 2) {
-                return index.charAt(0) + index.charAt(1).numToSymbol();
-            } else if (index.length === 1) {
-                return index;
-            }
-		}
+  /* PRIVATE METHODS */
 
-		/* Returns uppercase version of char */
-		function convert3(char) {
-			return char.toUpperCase();
-		}
+  /* Returns lowercase version of char */
+  function convert1(char) {
+    return char.toLowerCase();
+  }
 
-		/* Same as convert2, except first number is symbol, second is number */
-		function convert4(char) {
-            var index = char.toAlphabetIndex();
-            /* If index is 2 numbers, convert first to symbol, leave second. If only 1,
-               just return first as symbol */     
-            if(index.length === 2) {
-                return index.charAt(0).numToSymbol() + index.charAt(1);
-            } else if (index.length === 1) {
-                return index.numToSymbol();
-            }		
-        }
-        
-        /* PUBLIC METHODS */
-        
-        this.passWordify = function(str) {
-            var arr = str.split("");
-			return arr.doForEach(conversions).join("");
-		};
-	}
+  /* Returns char converted into its index in the alphabet, with second number,
+     (if there is one) converted to its corresponding symbol on the keyboard. */
+  function convert2(char) {
+    var index = char.toAlphabetIndex();
+    /* If index is 2 numbers, convert second to symbol, leave first. If only 1,
+       just return first number */     
+    if(index.length === 2) {
+      return index.charAt(0) + index.charAt(1).numToSymbol();
+    } else if (index.length === 1) {
+      return index;
+    }
+  }
 
-    /***************** JAVASCRIPT CORE FUNCTION EXTENSIONS ********************/
+  /* Returns uppercase version of char */
+  function convert3(char) {
+    return char.toUpperCase();
+  }
 
-
-    /* Returns the alphabet index ( a => 1, b => 2, c => 3, etc)
-       of the input letter as a string */
+  /* Same as convert2, except first number is symbol, second is number */
+  function convert4(char) {
+    var index = char.toAlphabetIndex();
+    /* If index is 2 numbers, convert first to symbol, leave second. If only 1,
+       just return first as symbol */     
+    if(index.length === 2) {
+      return index.charAt(0).numToSymbol() + index.charAt(1);
+    } else if (index.length === 1) {
+      return index.numToSymbol();
+    }   
+  }
     
-    String.prototype.toAlphabetIndex = function() {
-        /* If this is more than one letter, can't do it. I might fix this later.
-           With RECURSION! */
-        if(this.length > 1) {
-            console.log("toAlphabetIndex can only be called on strings of length 0");
-            return;
-        } else {
-            var alphabet = "abcdefghijklmnopqrstuvwxyz";
-            return (alphabet.indexOf(this.toLowerCase()) + 1).toString();
-        }
-    };
+    /* PUBLIC METHODS */
     
-    String.prototype.stripNonAlphabetic = function() {
-        return this.replace(/[^a-zA-Z]/g, "");
-    };
+  this.passWordify = function(str) {
+    var arr = str.split("");
+    return arr.doForEach(conversions).join("");
+  };
+}
+
+/***************** JAVASCRIPT CORE FUNCTION EXTENSIONS ********************/
+
+
+/* Returns the alphabet index ( a => 1, b => 2, c => 3, etc)
+   of the input letter as a string */
+
+String.prototype.toAlphabetIndex = function() {
+  /* If this is more than one letter, can't do it. I might fix this later.
+     With RECURSION! */
+  if(this.length > 1) {
+    console.log("toAlphabetIndex can only be called on strings of length 0");
+    return;
+  } else {
+    var alphabet = "abcdefghijklmnopqrstuvwxyz";
+    return (alphabet.indexOf(this.toLowerCase()) + 1).toString();
+  }
+};
     
-    /* Converts number string to corresponding number on keyboard! */
-    String.prototype.numToSymbol = function() {
-        /* Again, only works on strings of length 1 for now! */
-        if(this.length > 1) {
-            console.log("numToSymbol can only be called on strings of length 1");
-            return;
-        }  else {
-            switch (parseInt(this, 10)) {
-                case 0:
-                    return ")";
-                case 1:
-                    return "!";
-                case 2:
-                    return "@";
-                case 3:
-                    return "#";
-                case 4:
-                    return "$";
-                case 5:
-                    return "%";
-                case 6:
-                    return "^";
-                case 7:
-                    return "&";
-                case 8:
-                    return "*";
-                case 9:
-                    return "(";
-            }
-        }
-    };
-    
-    /* Returns array modified by the passed in function
-       funcs is an array of functions to cycle through on each iteration */
-    
-    Array.prototype.doForEach = function(funcs) {
-		var arrLength = this.length;
-        var numFuncs = funcs.length;
-		var element;
-		for(var i = 0; i < arrLength; i++) {
-			this[i] = funcs[i % numFuncs](this[i]);
-		}
-        return this;
-	};
+String.prototype.stripNonAlphabetic = function() {
+  return this.replace(/[^a-zA-Z]/g, "");
+};
+
+/* Converts number string to corresponding number on keyboard! */
+String.prototype.numToSymbol = function() {
+  /* Again, only works on strings of length 1 for now! */
+  if(this.length > 1) {
+      console.log("numToSymbol can only be called on strings of length 1");
+      return;
+  } else {
+    switch (parseInt(this, 10)) {
+      case 0:
+        return ")";
+      case 1:
+        return "!";
+      case 2:
+        return "@";
+      case 3:
+        return "#";
+      case 4:
+        return "$";
+      case 5:
+        return "%";
+      case 6:
+        return "^";
+      case 7:
+        return "&";
+      case 8:
+        return "*";
+      case 9:
+        return "(";
+    }
+  }
+};
+
+/* Returns array modified by the passed in function
+   funcs is an array of functions to cycle through on each iteration */
+
+Array.prototype.doForEach = function(funcs) {
+  var arrLength = this.length;
+  var numFuncs = funcs.length;
+  var element;
+  for(var i = 0; i < arrLength; i++) {
+    this[i] = funcs[i % numFuncs](this[i]);
+  }
+  return this;
+};
     
 //    /****************************** TEST FUNCTIONS *****************************/
     
@@ -172,20 +172,20 @@
 //     };
     
 //     /* Testing passWordifier! */
-	
+  
 //     var testPassWordifier = function(str) {
-// 		var testPassWordifier = new PassWordifier();
+//    var testPassWordifier = new PassWordifier();
 //         expected = "t5S@0";
 //         actual = testPassWordifier.passWordify(str);
-// 		console.log(expected === actual);	
+//    console.log(expected === actual); 
 //         console.log(actual);
-// 	};
+//  };
     
 //     var testStripNonAlphabetic = function() {
 //         var expected = "abcdef";
-// 		var actual = "#abc()@# $ ` def".stripNonAlphabetic();
-// 		console.log(expected === actual);
-// 	};
+//    var actual = "#abc()@# $ ` def".stripNonAlphabetic();
+//    console.log(expected === actual);
+//  };
     
 //     function foo(str) {
 //         return str.toUpperCase();
@@ -201,5 +201,5 @@
 //     //testToAlphabetIndex();
 //     //testNumToSymbol();
 //     testStripNonAlphabetic();
-// 	testPassWordifier("test");
+//  testPassWordifier("test");
     
